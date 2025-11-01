@@ -3,6 +3,7 @@ import numpy as np
 import json
 import gzip
 import pickle
+import os
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 from sklearn.feature_selection import SelectKBest, f_regression
@@ -10,6 +11,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+
+# Create directories if they don't exist
+os.makedirs('files/models', exist_ok=True)
+os.makedirs('files/output', exist_ok=True)
 
 # Load data
 train_data = pd.read_csv('files/input/train.csv')
@@ -65,7 +70,8 @@ grid_search = GridSearchCV(
 grid_search.fit(X_train, y_train)
 
 # Save the model
-with gzip.open('files/models/model.pkl.gz', 'wb') as f:
+model_path = os.path.join('files', 'models', 'model.pkl.gz')
+with gzip.open(model_path, 'wb') as f:
     pickle.dump(grid_search, f)
 
 # Calculate metrics
@@ -86,6 +92,8 @@ test_pred = grid_search.predict(X_test)
 train_metrics = calculate_metrics(y_train, train_pred, 'train')
 test_metrics = calculate_metrics(y_test, test_pred, 'test')
 
-with open('files/output/metrics.json', 'w') as f:
+# Save metrics
+metrics_path = os.path.join('files', 'output', 'metrics.json')
+with open(metrics_path, 'w') as f:
     f.write(json.dumps(train_metrics) + '\n')
     f.write(json.dumps(test_metrics) + '\n')
