@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import json
 import gzip
 import pickle
@@ -13,8 +12,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
 # Load data using relative paths
-train_data = pd.read_csv('files/input/train.csv')
-test_data = pd.read_csv('files/input/test.csv')
+train_data = pd.read_csv('files/input/test_data.csv.zip')
+test_data = pd.read_csv('files/input/test_data.csv.zip')
 
 # Create directories if they don't exist
 os.makedirs('files/models', exist_ok=True)
@@ -36,7 +35,7 @@ categorical_features = ['Fuel_Type', 'Selling_Type', 'Transmission']
 
 # Create preprocessing steps
 numeric_transformer = MinMaxScaler()
-categorical_transformer = OneHotEncoder(drop='first', sparse=False)
+categorical_transformer = OneHotEncoder(drop='first', sparse_output=False)
 
 # Create column transformer
 preprocessor = ColumnTransformer(
