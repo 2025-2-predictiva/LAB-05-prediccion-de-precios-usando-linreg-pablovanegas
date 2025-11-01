@@ -12,13 +12,16 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
-# Create directories if they don't exist
-os.makedirs('files/models', exist_ok=True)
-os.makedirs('files/output', exist_ok=True)
+# Get project root directory (where homework.py is located)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Load data
-train_data = pd.read_csv('files/input/train.csv')
-test_data = pd.read_csv('files/input/test.csv')
+# Create directories if they don't exist
+os.makedirs(os.path.join(PROJECT_ROOT, 'files', 'models'), exist_ok=True)
+os.makedirs(os.path.join(PROJECT_ROOT, 'files', 'output'), exist_ok=True)
+
+# Load data using absolute paths
+train_data = pd.read_csv(os.path.join(PROJECT_ROOT, 'files', 'input', 'train.csv'))
+test_data = pd.read_csv(os.path.join(PROJECT_ROOT, 'files', 'input', 'test.csv'))
 
 # Preprocess data
 train_data['Age'] = 2021 - train_data['Year']
@@ -69,8 +72,8 @@ grid_search = GridSearchCV(
 # Fit the model
 grid_search.fit(X_train, y_train)
 
-# Save the model
-model_path = os.path.join('files', 'models', 'model.pkl.gz')
+# Save the model using absolute path
+model_path = os.path.join(PROJECT_ROOT, 'files', 'models', 'model.pkl.gz')
 with gzip.open(model_path, 'wb') as f:
     pickle.dump(grid_search, f)
 
@@ -92,8 +95,8 @@ test_pred = grid_search.predict(X_test)
 train_metrics = calculate_metrics(y_train, train_pred, 'train')
 test_metrics = calculate_metrics(y_test, test_pred, 'test')
 
-# Save metrics
-metrics_path = os.path.join('files', 'output', 'metrics.json')
+# Save metrics using absolute path
+metrics_path = os.path.join(PROJECT_ROOT, 'files', 'output', 'metrics.json')
 with open(metrics_path, 'w') as f:
     f.write(json.dumps(train_metrics) + '\n')
     f.write(json.dumps(test_metrics) + '\n')
