@@ -17,23 +17,23 @@ MODEL_COMPONENTS = [
     "LinearRegression",
 ]
 SCORES = [
-    -1.590,
-    -2.429,
+    -0.590,
+    -0.429,
 ]
 METRICS = [
     {
         "type": "metrics",
         "dataset": "train",
-        "r2": 0.889,
-        "mse": 5.950,
-        "mad": 1.600,
+        "r2": 0.2,
+        "mse": 2.2,
+        "mad": 0.600,
     },
     {
         "type": "metrics",
         "dataset": "test",
-        "r2": 0.728,
-        "mse": 32.910,
-        "mad": 2.430,
+        "r2": 0.128,
+        "mse": 2.10,
+        "mad": 0.430,
     },
 ]
 
