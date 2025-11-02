@@ -99,7 +99,7 @@ def load_and_clean_data():
 
 def split_data(train_data, test_data):
     """ 
-    PASO 2: DIVIDIENDO LOS DATOS EN X E Y
+    PASO 2: DIVIDIENDO LOS DATOS EN x E Y
     
     return: x_train, y_train, x_test, y_test
 
@@ -125,14 +125,14 @@ def split_data(train_data, test_data):
 #
 
 
-def create_pipeline(X_train):
+def create_pipeline(x_train):
     """
     paso 3: CREANDO EL PIPELINE
 
     """
     # Identificando columnas categoricas y numericas
-    categprocal_cols = X_train.select_dtypes(include=['object']).columns.tolist()
-    numerical_cols = X_train.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    categprocal_cols = x_train.select_dtypes(include=['object']).columns.tolist()
+    numerical_cols = x_train.select_dtypes(include=['int64', 'float64']).columns.tolist()
 
     # Creando el preprocesador
     preprocessor = ColumnTransformer(
@@ -160,7 +160,7 @@ def create_pipeline(X_train):
 #
 #
 
-def optimize_hyperparameters(pipeline, X_train, y_train):
+def optimize_hyperparameters(pipeline, x_train, y_train):
     """
     paso 4: OPTIMIZANDO HIPERPARAMETROS
     """
@@ -179,7 +179,7 @@ def optimize_hyperparameters(pipeline, X_train, y_train):
         n_jobs=-1
     )
     
-    grid_search.fit(X_train, y_train)
+    grid_search.fit(x_train, y_train)
     return grid_search
 #
 # Paso 5.
@@ -208,7 +208,7 @@ def save_model(model):
 # {'type': 'metrics', 'dataset': 'train', 'r2': 0.8, 'mse': 0.7, 'mad': 0.9}
 # {'type': 'metrics', 'dataset': 'test', 'r2': 0.7, 'mse': 0.6, 'mad': 0.8}
 #
-def calculate_and_save_metrics(model, X_train, y_train, X_test, y_test):
+def calculate_and_save_metrics(model, x_train, y_train, x_test, y_test):
     """
     paso 6: CALCULANDO Y GUARDANDO LAS METRICAS
     """
@@ -217,7 +217,7 @@ def calculate_and_save_metrics(model, X_train, y_train, X_test, y_test):
     metrics = []
 
     # Predicciones para el conjunto de entrenamiento
-    y_train_pred = model.predict(X_train)
+    y_train_pred = model.predict(x_train)
     r2_train = r2_score(y_train, y_train_pred)
     mse_train = mean_squared_error(y_train, y_train_pred)
     mad_train = mean_absolute_error(y_train, y_train_pred)
@@ -231,7 +231,7 @@ def calculate_and_save_metrics(model, X_train, y_train, X_test, y_test):
     })
 
     # Predicciones para el conjunto de prueba
-    y_test_pred = model.predict(X_test)
+    y_test_pred = model.predict(x_test)
     r2_test = r2_score(y_test, y_test_pred)
     mse_test = mean_squared_error(y_test, y_test_pred)
     mad_test = mean_absolute_error(y_test, y_test_pred)
