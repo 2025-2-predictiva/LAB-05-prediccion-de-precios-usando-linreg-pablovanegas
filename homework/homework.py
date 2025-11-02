@@ -93,7 +93,7 @@ def load_and_clean_data():
 # Eliminar las columnas 'Year' y 'Car_Name'
     train_data = train_data.drop(columns=['Year', 'Car_Name'])
     test_data = test_data.drop(columns=['Year', 'Car_Name'])
-    print("Primeros datos del conjunto de entrenamiento:")
+
     return train_data, test_data
 
 
@@ -145,7 +145,7 @@ def create_pipeline(X_train):
     steps = [
         ('preprocessor', preprocessor), # Preprocesador
         # k mejores entradas
-        ('selector', SelectKBest(score_func=f_regression)),
+        ('selector', SelectKBest()),
         ('regressor', LinearRegression())  # Modelo de regresion lineal
     ]
     )
@@ -165,7 +165,8 @@ def optimize_hyperparameters(pipeline, X_train, y_train):
     paso 4: OPTIMIZANDO HIPERPARAMETROS
     """
     param_grid = {
-        'selector__k': [5, 7, 9, 11], 
+        'selector__k': [5, 7, 9, 11],
+        'preprocessor__cat__drop': ['first', None],  # Try different drop strategies for OneHotEncoder
         'preprocessor__num__feature_range': [(0, 1), (-1, 1)],  # Try different scaling ranges
         'regressor__fit_intercept': [True, False]  # Whether to calculate the intercept
     }
