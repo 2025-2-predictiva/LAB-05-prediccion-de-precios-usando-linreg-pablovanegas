@@ -132,13 +132,14 @@ def create_pipeline(x_train):
     """
     # Identificando columnas categoricas y numericas
     categprocal_cols = x_train.select_dtypes(include=['object']).columns.tolist()
-    numerical_cols = x_train.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    numerical_cols = ['Driven_kms', 'Age', 'Owner']  # <-- corrige aquí
+    categorical_cols = ['Fuel_Type', 'Selling_type', 'Transmission']  # <-- corrige aquí
 
     # Creando el preprocesador
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', MinMaxScaler(), numerical_cols),
-            ('cat', OneHotEncoder(handle_unknown='ignore'), categprocal_cols)
+            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
         ])
     # Creando el pipeline
     pipeline = Pipeline(
@@ -257,6 +258,8 @@ def main():
 
     # Paso 2
     x_train, y_train, x_test, y_test = split_data(train_data, test_data)
+    # imprimiento las columnas de x_train para verificar
+    print("Columnas de x_train:", x_train.columns.tolist())
 
     # Paso 3
     pipeline = create_pipeline(x_train)
