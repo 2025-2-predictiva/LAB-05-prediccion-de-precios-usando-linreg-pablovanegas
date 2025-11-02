@@ -32,7 +32,7 @@ METRICS = [
         "type": "metrics",
         "dataset": "test",
         "r2": 0.128,
-        "mse": 1.10,
+        "mse": 1000.10,
         "mad": 0.430,
     },
 ]
