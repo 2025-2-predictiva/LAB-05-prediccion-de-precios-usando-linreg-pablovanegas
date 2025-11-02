@@ -263,15 +263,15 @@ def main():
 
     # Paso 4
     optimized_model = optimize_hyperparameters(pipeline, x_train, y_train)
-    best_model = optimized_model.best_estimator_
     print("Best hyperparameters:", optimized_model.best_params_)
 
     # Paso 5
-    # guardar el modelo
-    save_model(best_model)
+    # Save the GridSearchCV object instead of best_estimator_
+    save_model(optimized_model)
 
-    # paso 6 y 7 
-    calculate_and_save_metrics(best_model, x_train, y_train, x_test, y_test)
+    # paso 6
+    # Use the full GridSearchCV model for metrics
+    calculate_and_save_metrics(optimized_model, x_train, y_train, x_test, y_test)
 
     print('Proceso completado.')
     print(f"Mejor score en CV: {-optimized_model.best_score_}")
