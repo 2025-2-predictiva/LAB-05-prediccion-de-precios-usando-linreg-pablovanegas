@@ -25,7 +25,7 @@ METRICS = [
         "type": "metrics",
         "dataset": "train",
         "r2": 0.2,
-        "mse": 1.2,
+        "mse": 10.2,
         "mad": 0.600,
     },
     {
