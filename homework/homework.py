@@ -145,7 +145,7 @@ def create_pipeline(X_train):
     steps = [
         ('preprocessor', preprocessor), # Preprocesador
         # k mejores entradas
-        ('feature_selection', SelectKBest(score_func=f_regression)),
+        ('selector', SelectKBest(score_func=f_regression)),
         ('regressor', LinearRegression())  # Modelo de regresion lineal
     ]
     )
@@ -164,16 +164,22 @@ def optimize_hyperparameters(pipeline, X_train, y_train):
     """
     paso 4: OPTIMIZANDO HIPERPARAMETROS
     """
-
-    # Definiendo los hiperparametros a optimizar
     param_grid = {
-        'feature_selection__k': [5, 7, 9, 'all']
+        'selector__k': [5, 7, 9, 11],
+        'preprocessor__cat__drop': ['first', None],  # Try different drop strategies for OneHotEncoder
+        'preprocessor__num__feature_range': [(0, 1), (-1, 1)],  # Try different scaling ranges
+        'regressor__fit_intercept': [True, False]  # Whether to calculate the intercept
     }
 
-    # Configurando la busqueda en cuadrícula
-    grid_search = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=10, scoring='neg_mean_absolute_error',n_jobs=-1, verbose=1)
+    grid_search = GridSearchCV(
+        estimator=pipeline,
+        param_grid=param_grid,
+        cv=10,
+        scoring='neg_mean_absolute_error',
+        n_jobs=-1
+    )
+    
     grid_search.fit(X_train, y_train)
-
     return grid_search
 #
 # Paso 5.
