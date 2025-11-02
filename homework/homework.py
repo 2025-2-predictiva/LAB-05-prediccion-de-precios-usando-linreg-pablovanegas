@@ -171,9 +171,7 @@ def optimize_hyperparameters(pipeline, X_train, y_train):
     }
 
     # Configurando la busqueda en cuadrícula
-    grid_search = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=10, scoring='neg_mean_absolute_error')
-    grid_search.fit(X_train, y_train)
-
+    grid_search = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=10, scoring='neg_mean_absolute_error',n_jobs=-1, verbose=1)
     grid_search.fit(X_train, y_train)
 
     return grid_search
